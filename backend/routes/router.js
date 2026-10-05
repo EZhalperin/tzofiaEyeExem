@@ -12,6 +12,7 @@ import {
   vallidationUpdateAlert,
   getNewId,
   vallidationAlertExists,
+  getChanges,
 } from "../middlewares/middlewares.js";
 
 const router = Router();
@@ -70,9 +71,10 @@ router.put(
   vallidationId,
   vallidationUpdateAlert,
   vallidationAlertExists,
+  getChanges,
   async (req, res, next) => {
     try {
-      await updateOne(Number(req.params.id), req.body);
+      await updateOne(Number(req.params.id), req.alert);
       res.status(200).json({ message: `alert #${req.params.id} updated` });
     } catch (error) {
       next(error);

@@ -37,9 +37,17 @@ export function vallidationFullAlert(req, res, next) {
     return res
       .status(400)
       .json({ error: "status must be one of: Active, Handled" });
-  if (typeof lon != "number" || typeof lat != "number")
+  if ((lon && isNaN(lon)) || (lat && isNaN(lat)))
     return res.status(400).json({ error: "lon and lat must be number" });
-  req.alert = { displayName, description, priority, arena, status, lon, lat };
+  req.alert = {
+    displayName,
+    description,
+    priority,
+    arena,
+    status,
+    lon: Number(lon),
+    lat: Number(lat),
+  };
   next();
 }
 
@@ -65,8 +73,23 @@ export function vallidationUpdateAlert(req, res, next) {
     return res
       .status(400)
       .json({ error: "status must be one of: Active, Handled" });
-  if ((lon && typeof lon != "number") || (lat && typeof lat != "number"))
+  if ((lon && isNaN(lon)) || (lat && isNaN(lat)))
     return res.status(400).json({ error: "lon and lat must be number" });
+  next();
+}
+
+export function getChanges(req, res, next) {
+  const { displayName, description, priority, arena, status, lon, lat } =
+    req.body;
+  req.alert = {};
+  if (displayName) req.alert.displayName = displayName;
+  if (description) req.alert.description = description;
+  if (priority) req.alert.priority = priority;
+  if (arena) req.alert.arena = arena;
+  if (status) req.alert.status = status;
+  if (lon) req.alert.lon = Number(lon);
+  if (lat) req.alert.lat = Number(lat);
+
   next();
 }
 

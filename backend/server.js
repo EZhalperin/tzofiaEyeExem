@@ -7,14 +7,14 @@ import router from "./routes/router.js";
 const PORT = process.env.PORT;
 const server = express();
 
-// server.use(cors())
+server.use(cors({ origin: "http://localhost:5173" }));
 server.use(express.json());
 
 server.use(router);
 
 server.use((err, _req, res, _next) => {
   if (err) {
-    const error = err.message || "System error";
+    const error = err.message || "Internal Server Error";
     const status = err.status || 500;
     res.status(status).json({ error });
   }
