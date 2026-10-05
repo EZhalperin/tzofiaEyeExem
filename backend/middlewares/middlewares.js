@@ -3,8 +3,15 @@ import { getAll, getOne } from "../db/repositoryMongo.js";
 export function vallidationId(req, res, next) {
   const { id } = req.params;
   if (!id) return res.status(400).json({ error: "must enter ID" });
-  if (typeof Number(id) != "number")
-    return res.status(400).json({ error: "ID must be number" });
+  if (isNaN(id)) return res.status(400).json({ error: "ID must be number" });
+  req.id = Number(id);
+  next();
+}
+
+export async function vallidationAlertExists(req, res, next) {
+  const oneAlert = await getOne(req.id);
+  if (!oneAlert)
+    return res.status(404).json({ error: `id #${req.id} not found` });
   next();
 }
 
@@ -51,6 +58,13 @@ export function vallidationFullAlert(req, res, next) {
   next();
 }
 
+export async function getNewId(req, _res, next) {
+  const alerts = await getAll();
+  const newId = alerts.length === 0 ? 1 : alerts.at(-1).id + 1;
+  req.alert.id = newId;
+  next();
+}
+
 export function vallidationUpdateAlert(req, res, next) {
   const { displayName, description, priority, arena, status, lon, lat } =
     req.body;
@@ -78,7 +92,7 @@ export function vallidationUpdateAlert(req, res, next) {
   next();
 }
 
-export function getChanges(req, res, next) {
+export function getChanges(req, _res, next) {
   const { displayName, description, priority, arena, status, lon, lat } =
     req.body;
   req.alert = {};
@@ -89,20 +103,5 @@ export function getChanges(req, res, next) {
   if (status) req.alert.status = status;
   if (lon) req.alert.lon = Number(lon);
   if (lat) req.alert.lat = Number(lat);
-
-  next();
-}
-
-export async function getNewId(req, res, next) {
-  const alerts = await getAll();
-  const newId = alerts.length === 0 ? 1 : alerts.at(-1).id + 1;
-  req.alert.id = newId;
-  next();
-}
-
-export async function vallidationAlertExists(req, res, next) {
-  const oneAlert = await getOne(Number(req.params.id));
-  if (!oneAlert)
-    return res.status(404).json({ error: `id #${req.params.id} not found` });
   next();
 }

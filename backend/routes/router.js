@@ -31,7 +31,7 @@ router.get(
   vallidationAlertExists,
   async (req, res, next) => {
     try {
-      const result = await getOne(Number(req.params.id));
+      const result = await getOne(req.id);
       res
         .status(200)
         .json({ message: `alert #${req.params.id}`, data: result });
@@ -59,7 +59,7 @@ router.delete(
   vallidationAlertExists,
   async (req, res, next) => {
     try {
-      const result = await deleteOne(Number(req.params.id));
+      const result = await deleteOne(req.id);
       res.status(200).json({ message: `alert #${req.params.id} deleted` });
     } catch (error) {
       next(error);
@@ -74,7 +74,7 @@ router.put(
   getChanges,
   async (req, res, next) => {
     try {
-      await updateOne(Number(req.params.id), req.alert);
+      await updateOne(req.id, req.alert);
       res.status(200).json({ message: `alert #${req.params.id} updated` });
     } catch (error) {
       next(error);

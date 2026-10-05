@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Alert } from "../types/alertType";
 import { useAlertsStore } from "../store/useAlertsStore";
 
 const GetAllFormPage = () => {
-  const { alerts, fetchAlerts } = useAlertsStore();
+  const { alerts } = useAlertsStore();
   const [priority, setPriority] = useState("");
   const [arena, setArena] = useState("");
   const [status, setStatus] = useState("");
-  useEffect(() => {
-    fetchAlerts();
-  }, []);
   const listItems = alerts.map((al: Alert) => {
     if (
       al.priority.includes(priority) &&
