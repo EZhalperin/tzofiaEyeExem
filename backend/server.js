@@ -14,9 +14,9 @@ server.use(router);
 
 server.use((err, _req, res, _next) => {
   if (err) {
-    const message = err.message || "System error";
+    const error = err.message || "System error";
     const status = err.status || 500;
-    res.status(status).json({ message });
+    res.status(status).json({ error });
   }
 });
 

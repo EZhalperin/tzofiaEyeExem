@@ -18,6 +18,6 @@ export async function deleteOne(id) {
   await alerts.deleteOne({ id });
 }
 
-export async function updateOne(id, newAlert) {
-  await alerts.updateOne({ id }, { $set: newAlert });
+export async function updateOne(id, newAlertParams) {
+  await alerts.updateOne({ id }, { $set: newAlertParams });
 }
