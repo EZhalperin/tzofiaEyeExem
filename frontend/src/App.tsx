@@ -1,5 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import OptionsPage from "./pages/OptionsPage";
+import GetAllFormPage from "./pages/GetAllFormPage";
+import GetOneFormPage from "./pages/GetOneFormPage";
+import AddOneFormPage from "./pages/AddOneFormPage";
+import DeleteOneFormPage from "./pages/DeleteOneFormPage";
+import UpdateOneFormPage from "./pages/UpdateOneFormPage";
 
 const App = () => {
   return (
@@ -8,6 +14,12 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/options" element={<OptionsPage />} />
+          <Route path="/alerts" element={<GetAllFormPage />} />
+          <Route path="/alert" element={<GetOneFormPage />} />
+          <Route path="/add-alert" element={<AddOneFormPage />} />
+          <Route path="/delete-alert" element={<DeleteOneFormPage />} />
+          <Route path="/update-alert" element={<UpdateOneFormPage />} />
         </Routes>
       </BrowserRouter>
     </>
