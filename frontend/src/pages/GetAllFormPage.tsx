@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchUrl } from "../helper/fetchUrl";
+import type { Alert } from "../types/alertType";
 
 const GetAllFormPage = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const GetAllFormPage = () => {
     }
     f();
   }, []);
-  const listItems = alerts.map((al) => (
+  const listItems = alerts.map((al: Alert) => (
     <li key={al.id}>
       {al.displayName} - {al.description} - {al.priority} - {al.arena} -{" "}
       {al.status} - {al.lon} - {al.lat}
@@ -21,7 +22,7 @@ const GetAllFormPage = () => {
   ));
   return (
     <>
-      <button onClick={() => navigate("/")}>options</button>
+      <button onClick={() => navigate("/")}>Home</button>
       <ul>{listItems}</ul>
     </>
   );
