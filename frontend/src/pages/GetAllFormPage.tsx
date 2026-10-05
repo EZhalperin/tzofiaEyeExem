@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { fetchUrl } from "../helper/fetchUrl";
 import type { Alert } from "../types/alertType";
+import { useAlertsStore } from "../store/useAlertsStore";
 
 const GetAllFormPage = () => {
-  const navigate = useNavigate();
+  const { alerts, fetchAlerts } = useAlertsStore();
   const [priority, setPriority] = useState("");
   const [arena, setArena] = useState("");
   const [status, setStatus] = useState("");
-  const [alerts, setAlerts] = useState([]);
   useEffect(() => {
-    async function f() {
-      const { data, message } = await fetchUrl("GET");
-      console.log(message);
-      setAlerts(data);
-    }
-    f();
+    fetchAlerts();
   }, []);
   const listItems = alerts.map((al: Alert) => {
     if (
@@ -32,7 +25,6 @@ const GetAllFormPage = () => {
   });
   return (
     <>
-      <button onClick={() => navigate("/")}>Home</button>
       <ul>{listItems}</ul>
       <p>select by:</p>
       <p>priority</p>

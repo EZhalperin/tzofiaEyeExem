@@ -1,18 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AlertsMap from "../AlertsMap";
-import { fetchUrl } from "../helper/fetchUrl";
 import { useNavigate } from "react-router-dom";
+import { useAlertsStore } from "../store/useAlertsStore";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [alerts, setAlerts] = useState([]);
+  const { alerts, fetchAlerts } = useAlertsStore();
   useEffect(() => {
-    async function f() {
-      const { data, message } = await fetchUrl("GET");
-      console.log(message);
-      setAlerts(data);
-    }
-    f();
+    fetchAlerts();
   }, []);
 
   return (
