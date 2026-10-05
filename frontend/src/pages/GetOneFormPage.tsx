@@ -34,6 +34,7 @@ const GetOneFormPage = () => {
           f();
         }}
       >
+        <p>Enter ID:</p>
         <input type="number" name="id" required></input>
         <button type="submit">find</button>
       </form>
