@@ -1,5 +1,6 @@
 import { users } from "../db/connectionToMongoDB.js";
-import { getAll } from "../db/repositoryMongo.js";
+import { getAll, getOne } from "../db/repositoryMongo.js";
+import { checkPassword } from "../helper/authFunctions.js";
 
 export function vallidationFullUser(req, res, next) {
   const { userName, password, email, role, assignedArena } = req.body;
@@ -24,5 +25,19 @@ export function vallidationFullUser(req, res, next) {
 export async function getNewId(req, _res, next) {
   const allUsers = await getAll(users);
   req.user.id = allUsers.length === 0 ? 1 : allUsers.at(-1).id + 1;
+  next();
+}
+
+export async function vallidationUserExists(req, res, next) {
+  const oneUser = await getOne(users, Number(req.body.id));
+  if (!oneUser)
+    return res.status(404).json({ error: `user id #${req.id} not found` });
+  req.user = oneUser;
+  next();
+}
+
+export async function vallidationPassword(req, res, next) {
+  const isMetch = await checkPassword(req.body.password, req.user.password);
+  if (!isMetch) return res.status(401).json({ error: `password wrong` });
   next();
 }
