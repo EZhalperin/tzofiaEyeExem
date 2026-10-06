@@ -13,7 +13,7 @@ import {
   getNewId,
   vallidationAlertExists,
   getChanges,
-} from "../middlewares/middlewares.js";
+} from "../middlewares/alertsMiddlewares.js";
 import { alerts } from "../db/connectionToMongoDB.js";
 
 const router = Router();
