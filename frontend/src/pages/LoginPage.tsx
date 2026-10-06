@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { fetchUrl } from "../helper/fetchUrl";
+import { useUserStore } from "../store/useUserStore";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { fetchUser } = useUserStore();
   return (
     <>
       <form
@@ -12,7 +14,7 @@ const LoginPage = () => {
           const userName = formData.get("userName");
           const password = formData.get("password");
           async function f() {
-            const { error, message } = await fetchUrl(
+            const { error, data, message } = await fetchUrl(
               "/api/auth/login",
               "POST",
               null,
@@ -22,8 +24,8 @@ const LoginPage = () => {
               alert(error);
             } else {
               console.log(message);
-              console.log(`frontend - ${document.cookie}`);
-
+              console.log(`${data.id} - ${data.role}`);
+              fetchUser(data.id, data.role);
               navigate("/Home");
             }
           }
