@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AlertsMap from "../AlertsMap";
 import { useNavigate } from "react-router-dom";
 import { useAlertsStore } from "../store/useAlertsStore";
 import { useUserStore } from "../store/useUserStore";
+import { fetchUrl } from "../helper/fetchUrl";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -16,6 +17,19 @@ const HomePage = () => {
   return (
     <>
       <div>HomePage</div>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          async function f() {
+            const { message } = await fetchUrl("/api/auth/logout", "POST");
+            alert(message);
+            navigate("/");
+          }
+          f();
+        }}
+      >
+        logout
+      </button>
       <p>
         {userId} - {userRole}
       </p>

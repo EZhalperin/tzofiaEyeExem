@@ -15,8 +15,8 @@ const GetAllFormPage = () => {
     )
       return (
         <li key={al.id}>
-          {al.displayName} - {al.description} - {al.priority} - {al.arena} -{" "}
-          {al.status} - {al.lon} - {al.lat}
+          {al.id} - {al.displayName} - {al.description} - {al.priority} -{" "}
+          {al.arena} - {al.status} - {al.lon} - {al.lat}
         </li>
       );
   });

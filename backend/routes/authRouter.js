@@ -73,4 +73,9 @@ router.delete(
   },
 );
 
+router.post("/api/auth/logout", (req, res) => {
+  res.cookie("token", "", { httpOnly: true });
+  res.status(200).json({ message: "token deleted" });
+});
+
 export default router;

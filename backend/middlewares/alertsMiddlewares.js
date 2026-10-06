@@ -10,7 +10,7 @@ export function vallidationId(req, res, next) {
 }
 
 export async function vallidationAlertExists(req, res, next) {
-  const oneAlert = await getOne(alerts, req.id);
+  const oneAlert = await getOne(alerts, { id: req.id });
   if (!oneAlert)
     return res.status(404).json({ error: `id #${req.id} not found` });
   if (
