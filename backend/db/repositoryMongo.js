@@ -1,5 +1,5 @@
-export async function getAll(collection) {
-  const data = await collection.find().toArray();
+export async function getAll(collection, filter = {}) {
+  const data = await collection.find(filter).toArray();
   return data;
 }
 

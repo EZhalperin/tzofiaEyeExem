@@ -2,6 +2,7 @@ import { Router } from "express";
 import { createNewUser, getToken } from "../helper/authFunctions.js";
 import {
   getNewId,
+  premissionAdmin,
   vallidationFullUser,
   vallidationPassword,
   vallidationToken,
@@ -30,7 +31,7 @@ router.post(
 
 router.get("/api/auth/me", vallidationToken, async (req, res, next) => {
   try {
-    const user = await getOne(users, req.id);
+    const user = await getOne(users, req.user.id);
     res.status(200).json({ message: "user", user });
   } catch (error) {
     next(error);
@@ -39,11 +40,13 @@ router.get("/api/auth/me", vallidationToken, async (req, res, next) => {
 
 router.post(
   "/api/auth/register",
+  vallidationToken,
+  premissionAdmin,
   vallidationFullUser,
   getNewId,
   async (req, res, next) => {
     try {
-      await createNewUser(req.user);
+      await createNewUser(req.newUser);
       res.status(201).json({ message: "new user created" });
     } catch (error) {
       next(error);
@@ -53,6 +56,8 @@ router.post(
 
 router.delete(
   "/api/auth/users/:id",
+  vallidationToken,
+  premissionAdmin,
   vallidationUserExistsForDelete,
   async (req, res, next) => {
     try {

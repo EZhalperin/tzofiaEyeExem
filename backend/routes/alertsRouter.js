@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import {
   addOne,
   deleteOne,
@@ -15,12 +16,17 @@ import {
   getChanges,
 } from "../middlewares/alertsMiddlewares.js";
 import { alerts } from "../db/connectionToMongoDB.js";
+import { getFilterByRole } from "../helper/authFunctions.js";
+import {
+  premissionChanges,
+  vallidationToken,
+} from "../middlewares/authMiddlewares.js";
 
 const router = Router();
 
-router.get("/api/alerts", async (req, res, next) => {
+router.get("/api/alerts", vallidationToken, async (req, res, next) => {
   try {
-    const result = await getAll(alerts);
+    const result = await getAll(alerts, getFilterByRole(req.user));
     res.status(200).json({ message: "all alerts", data: result });
   } catch (error) {
     next(error);
@@ -29,6 +35,7 @@ router.get("/api/alerts", async (req, res, next) => {
 
 router.get(
   "/api/alerts/:id",
+  vallidationToken,
   vallidationId,
   vallidationAlertExists,
   async (req, res, next) => {
@@ -45,6 +52,8 @@ router.get(
 
 router.post(
   "/api/alerts",
+  vallidationToken,
+  premissionChanges,
   vallidationFullAlert,
   getNewId,
   async (req, res, next) => {
@@ -59,6 +68,8 @@ router.post(
 
 router.delete(
   "/api/alerts/:id",
+  vallidationToken,
+  premissionChanges,
   vallidationId,
   vallidationAlertExists,
   async (req, res, next) => {
@@ -73,6 +84,7 @@ router.delete(
 
 router.put(
   "/api/alerts/:id",
+  vallidationToken,
   vallidationId,
   vallidationUpdateAlert,
   vallidationAlertExists,

@@ -18,13 +18,13 @@ export function vallidationFullUser(req, res, next) {
     return res
       .status(400)
       .json({ error: "arena must be one of: North, South, Center, All" });
-  req.user = { userName, password, email, role, assignedArena };
+  req.newUser = { userName, password, email, role, assignedArena };
   next();
 }
 
 export async function getNewId(req, _res, next) {
   const allUsers = await getAll(users);
-  req.user.id = allUsers.length === 0 ? 1 : allUsers.at(-1).id + 1;
+  req.newUser.id = allUsers.length === 0 ? 1 : allUsers.at(-1).id + 1;
   next();
 }
 
@@ -46,7 +46,8 @@ export function vallidationToken(req, res, next) {
   const token = req.cookies.token;
   const decode = checkToken(token);
   if (!decode) return res.status(401).json({ error: `token wrong` });
-  req.id = Number(decode.id);
+  req.user = decode;
+  req.user.id = Number(decode.id);
   next();
 }
 
@@ -57,5 +58,19 @@ export async function vallidationUserExistsForDelete(req, res, next) {
       .status(404)
       .json({ error: `user id #${req.params.id} not found` });
   req.id = oneUser.id;
+  next();
+}
+
+export function premissionChanges(req, res, next) {
+  if (req.user.role === "general_user")
+    return res
+      .status(403)
+      .json({ error: `general user can't change or add alerts` });
+  next();
+}
+
+export function premissionAdmin(req, res, next) {
+  if (req.user.role != "admin")
+    return res.status(403).json({ error: `no premission, only for Admins` });
   next();
 }

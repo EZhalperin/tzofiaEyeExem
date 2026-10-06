@@ -15,12 +15,19 @@ export async function checkPassword(password, hashPassword) {
   return bcrypt.compare(password, hashPassword);
 }
 
-export function getToken({ id, role }) {
-  const token = jwt.sign({ id, role }, JWT_SECRET, { expiresIn: "10m" });
+export function getToken({ id, role, assignedArena }) {
+  const token = jwt.sign({ id, role, assignedArena }, JWT_SECRET, {
+    expiresIn: "10m",
+  });
   return token;
 }
 
 export function checkToken(token) {
   const decode = jwt.verify(token, JWT_SECRET);
   return decode;
+}
+
+export function getFilterByRole({ role, assignedArena }) {
+  if (role === "arena_user") return { arena: assignedArena };
+  else return {};
 }
