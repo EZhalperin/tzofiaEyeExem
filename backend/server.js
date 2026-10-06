@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 
-import router from "./routes/router.js";
+import alertsRouter from "./routes/alertsRouter.js";
+import authRouter from "./routes/authRouter.js";
 
 const PORT = process.env.PORT;
 const server = express();
@@ -10,7 +11,8 @@ const server = express();
 server.use(cors({ origin: "http://localhost:5173" }));
 server.use(express.json());
 
-server.use(router);
+server.use(alertsRouter);
+server.use(authRouter);
 
 server.use((err, _req, res, _next) => {
   if (err) {

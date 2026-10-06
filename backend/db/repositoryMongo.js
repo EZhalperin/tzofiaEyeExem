@@ -8,14 +8,14 @@ export async function getOne(collection, id) {
   return data;
 }
 
-export async function addOne(collection, oneAlert) {
-  await collection.insertOne(oneAlert);
+export async function addOne(collection, oneLine) {
+  await collection.insertOne(oneLine);
 }
 
 export async function deleteOne(collection, id) {
   await collection.deleteOne({ id });
 }
 
-export async function updateOne(collection, id, newAlertParams) {
-  await collection.updateOne({ id }, { $set: newAlertParams });
+export async function updateOne(collection, id, newLineParams) {
+  await collection.updateOne({ id }, { $set: newLineParams });
 }
