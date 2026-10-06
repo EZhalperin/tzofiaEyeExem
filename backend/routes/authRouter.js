@@ -4,8 +4,11 @@ import {
   getNewId,
   vallidationFullUser,
   vallidationPassword,
+  vallidationToken,
   vallidationUserExists,
 } from "../middlewares/authMiddlewares.js";
+import { users } from "../db/connectionToMongoDB.js";
+import { getOne } from "../db/repositoryMongo.js";
 
 const router = Router();
 
@@ -23,6 +26,15 @@ router.post(
     }
   },
 );
+
+router.get("/api/auth/me", vallidationToken, async (req, res, next) => {
+  try {
+    const user = await getOne(users, req.id);
+    res.status(200).json({ message: "user", user });
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post(
   "/api/auth/register",

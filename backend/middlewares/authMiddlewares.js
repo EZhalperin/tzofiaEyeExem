@@ -1,6 +1,6 @@
 import { users } from "../db/connectionToMongoDB.js";
 import { getAll, getOne } from "../db/repositoryMongo.js";
-import { checkPassword } from "../helper/authFunctions.js";
+import { checkPassword, checkToken } from "../helper/authFunctions.js";
 
 export function vallidationFullUser(req, res, next) {
   const { userName, password, email, role, assignedArena } = req.body;
@@ -39,5 +39,13 @@ export async function vallidationUserExists(req, res, next) {
 export async function vallidationPassword(req, res, next) {
   const isMetch = await checkPassword(req.body.password, req.user.password);
   if (!isMetch) return res.status(401).json({ error: `password wrong` });
+  next();
+}
+
+export function vallidationToken(req, res, next) {
+  const token = req.cookies.token;
+  const decode = checkToken(token);
+  if (!decode) return res.status(401).json({ error: `token wrong` });
+  req.id = Number(decode.id);
   next();
 }

@@ -19,3 +19,8 @@ export function getToken({ id, role }) {
   const token = jwt.sign({ id, role }, JWT_SECRET, { expiresIn: "10m" });
   return token;
 }
+
+export function checkToken(token) {
+  const decode = jwt.verify(token, JWT_SECRET);
+  return decode;
+}
