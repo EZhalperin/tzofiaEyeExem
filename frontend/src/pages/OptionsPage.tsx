@@ -9,6 +9,8 @@ const OptionsPage = () => {
       <button onClick={() => navigate("/add-alert")}>add alert</button>
       <button onClick={() => navigate("/delete-alert")}>delete alert</button>
       <button onClick={() => navigate("/update-alert")}>update alert</button>
+      <button onClick={() => navigate("/add-user")}>add user</button>
+      <button onClick={() => navigate("/delete-user")}>delete user</button>
     </>
   );
 };

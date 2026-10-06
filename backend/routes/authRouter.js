@@ -22,7 +22,11 @@ router.post(
     try {
       const token = getToken(req.user);
       res.cookie("token", token, { httpOnly: true });
-      res.status(201).json({ message: "user logined", token });
+      res.status(201).json({
+        message: "user logined",
+        token,
+        data: { id: req.user.id, role: req.user.role },
+      });
     } catch (error) {
       next(error);
     }
@@ -61,7 +65,7 @@ router.delete(
   vallidationUserExistsForDelete,
   async (req, res, next) => {
     try {
-      await deleteOne(users, req.id);
+      await deleteOne(users, { id: req.id });
       res.status(200).json({ message: "user deleted" });
     } catch (error) {
       next(error);

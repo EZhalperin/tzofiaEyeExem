@@ -23,8 +23,12 @@ export function getToken({ id, role, assignedArena }) {
 }
 
 export function checkToken(token) {
-  const decode = jwt.verify(token, JWT_SECRET);
-  return decode;
+  try {
+    const decode = jwt.verify(token, JWT_SECRET);
+    return decode;
+  } catch (error) {
+    throw new Error("Invalid token");
+  }
 }
 
 export function getFilterByRole({ role, assignedArena }) {

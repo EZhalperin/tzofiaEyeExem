@@ -29,9 +29,11 @@ export async function getNewId(req, _res, next) {
 }
 
 export async function vallidationUserExists(req, res, next) {
-  const oneUser = await getOne(users, Number(req.body.id));
+  const oneUser = await getOne(users, { userName: req.body.userName });
   if (!oneUser)
-    return res.status(404).json({ error: `user id #${req.id} not found` });
+    return res
+      .status(404)
+      .json({ error: `user name - ${req.body.userName} - not found` });
   req.user = oneUser;
   next();
 }
@@ -52,12 +54,13 @@ export function vallidationToken(req, res, next) {
 }
 
 export async function vallidationUserExistsForDelete(req, res, next) {
-  const oneUser = await getOne(users, Number(req.params.id));
+  const oneUser = await getOne(users, { id: Number(req.params.id) });
   if (!oneUser)
     return res
       .status(404)
       .json({ error: `user id #${req.params.id} not found` });
   req.id = oneUser.id;
+
   next();
 }
 

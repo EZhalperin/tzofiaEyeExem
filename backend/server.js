@@ -5,12 +5,11 @@ import cookieParser from "cookie-parser";
 
 import alertsRouter from "./routes/alertsRouter.js";
 import authRouter from "./routes/authRouter.js";
-import { alerts } from "./db/connectionToMongoDB.js";
 
 const PORT = process.env.PORT;
 const server = express();
 
-server.use(cors({ origin: "http://localhost:5173" }));
+server.use(cors({ origin: "http://localhost:5173", credentials: true }));
 server.use(express.json());
 server.use(cookieParser());
 
