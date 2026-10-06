@@ -6,6 +6,7 @@ import GetOneFormPage from "./pages/GetOneFormPage";
 import AddOneFormPage from "./pages/AddOneFormPage";
 import DeleteOneFormPage from "./pages/DeleteOneFormPage";
 import UpdateOneFormPage from "./pages/UpdateOneFormPage";
+import LoginPage from "./pages/LoginPage";
 
 const App = () => {
   return (
@@ -13,7 +14,8 @@ const App = () => {
       <div>App</div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/Home" element={<HomePage />} />
           <Route path="/options" element={<OptionsPage />} />
           <Route path="/alerts" element={<GetAllFormPage />} />
           <Route path="/alert" element={<GetOneFormPage />} />

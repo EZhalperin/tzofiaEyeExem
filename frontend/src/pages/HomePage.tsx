@@ -8,6 +8,7 @@ const HomePage = () => {
   const { alerts, fetchAlerts } = useAlertsStore();
   useEffect(() => {
     fetchAlerts();
+    console.log(alerts);
   }, []);
 
   return (

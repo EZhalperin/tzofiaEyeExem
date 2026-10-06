@@ -23,13 +23,18 @@ const GetOneFormPage = () => {
           const formData = new FormData(e.currentTarget);
           const id = formData.get("id");
           async function f() {
-            const { error, data, message } = await fetchUrl("GET", id);
+            const { error, data, message } = await fetchUrl(
+              "/api/alerts",
+              "GET",
+              id,
+            );
             if (error) {
               alert(error);
               navigate("/");
+            } else {
+              console.log(message);
+              setAlerts(data);
             }
-            console.log(message);
-            setAlerts(data);
           }
           f();
         }}

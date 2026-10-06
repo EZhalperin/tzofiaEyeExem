@@ -18,21 +18,26 @@ const AddOneFormPage = () => {
           const lat = formData.get("lat");
 
           async function f() {
-            const { error, message } = await fetchUrl("POST", null, {
-              displayName,
-              description,
-              priority,
-              arena,
-              status,
-              lon,
-              lat,
-            });
+            const { error, message } = await fetchUrl(
+              "/api/alerts",
+              "POST",
+              null,
+              {
+                displayName,
+                description,
+                priority,
+                arena,
+                status,
+                lon,
+                lat,
+              },
+            );
             if (error) {
               alert(error);
             } else {
               alert(message);
             }
-            navigate("/");
+            navigate("/Home");
           }
           f();
         }}

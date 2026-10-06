@@ -11,13 +11,17 @@ const DeleteOneFormPage = () => {
           const formData = new FormData(e.currentTarget);
           const id = formData.get("id");
           async function f() {
-            const { error, message } = await fetchUrl("DELETE", id);
+            const { error, message } = await fetchUrl(
+              "/api/alerts",
+              "DELETE",
+              id,
+            );
             if (error) {
               alert(error);
             } else {
               alert(message);
             }
-            navigate("/");
+            navigate("/Home");
           }
           f();
         }}

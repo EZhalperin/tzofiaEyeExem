@@ -9,7 +9,7 @@ interface Type {
 export const useAlertsStore = create<Type>((set) => ({
   alerts: [],
   fetchAlerts: async () => {
-    const { data, message } = await fetchUrl("GET");
+    const { data, message, error } = await fetchUrl("/api/alerts", "GET");
     console.log(message);
     set(() => ({ alerts: data }));
   },
