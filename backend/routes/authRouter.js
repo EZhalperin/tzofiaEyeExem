@@ -6,9 +6,10 @@ import {
   vallidationPassword,
   vallidationToken,
   vallidationUserExists,
+  vallidationUserExistsForDelete,
 } from "../middlewares/authMiddlewares.js";
 import { users } from "../db/connectionToMongoDB.js";
-import { getOne } from "../db/repositoryMongo.js";
+import { deleteOne, getOne } from "../db/repositoryMongo.js";
 
 const router = Router();
 
@@ -44,6 +45,19 @@ router.post(
     try {
       await createNewUser(req.user);
       res.status(201).json({ message: "new user created" });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.delete(
+  "/api/auth/users/:id",
+  vallidationUserExistsForDelete,
+  async (req, res, next) => {
+    try {
+      await deleteOne(users, req.id);
+      res.status(200).json({ message: "user deleted" });
     } catch (error) {
       next(error);
     }

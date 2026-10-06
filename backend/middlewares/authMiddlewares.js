@@ -49,3 +49,13 @@ export function vallidationToken(req, res, next) {
   req.id = Number(decode.id);
   next();
 }
+
+export async function vallidationUserExistsForDelete(req, res, next) {
+  const oneUser = await getOne(users, Number(req.params.id));
+  if (!oneUser)
+    return res
+      .status(404)
+      .json({ error: `user id #${req.params.id} not found` });
+  req.id = oneUser.id;
+  next();
+}
