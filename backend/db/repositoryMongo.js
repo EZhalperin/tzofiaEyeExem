@@ -1,23 +1,21 @@
-import { alerts } from "./connectionToMongoDB.js";
-
-export async function getAll() {
-  const data = await alerts.find().toArray();
+export async function getAll(collection) {
+  const data = await collection.find().toArray();
   return data;
 }
 
-export async function getOne(id) {
-  const data = await alerts.findOne({ id });
+export async function getOne(collection, id) {
+  const data = await collection.findOne({ id });
   return data;
 }
 
-export async function addOne(oneAlert) {
-  await alerts.insertOne(oneAlert);
+export async function addOne(collection, oneAlert) {
+  await collection.insertOne(oneAlert);
 }
 
-export async function deleteOne(id) {
-  await alerts.deleteOne({ id });
+export async function deleteOne(collection, id) {
+  await collection.deleteOne({ id });
 }
 
-export async function updateOne(id, newAlertParams) {
-  await alerts.updateOne({ id }, { $set: newAlertParams });
+export async function updateOne(collection, id, newAlertParams) {
+  await collection.updateOne({ id }, { $set: newAlertParams });
 }

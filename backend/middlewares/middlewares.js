@@ -1,3 +1,4 @@
+import { alerts } from "../db/connectionToMongoDB.js";
 import { getAll, getOne } from "../db/repositoryMongo.js";
 
 export function vallidationId(req, res, next) {
@@ -9,7 +10,7 @@ export function vallidationId(req, res, next) {
 }
 
 export async function vallidationAlertExists(req, res, next) {
-  const oneAlert = await getOne(req.id);
+  const oneAlert = await getOne(alerts, req.id);
   if (!oneAlert)
     return res.status(404).json({ error: `id #${req.id} not found` });
   next();
@@ -59,8 +60,8 @@ export function vallidationFullAlert(req, res, next) {
 }
 
 export async function getNewId(req, _res, next) {
-  const alerts = await getAll();
-  const newId = alerts.length === 0 ? 1 : alerts.at(-1).id + 1;
+  const allAlerts = await getAll(alerts);
+  const newId = alerts.length === 0 ? 1 : allAlerts.at(-1).id + 1;
   req.alert.id = newId;
   next();
 }

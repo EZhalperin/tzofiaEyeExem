@@ -6,7 +6,8 @@ async function connectToMongo() {
   client.connect();
   const database = client.db("TzofiaEye");
   const alerts = database.collection("alerts");
-  return alerts;
+  const users = database.collection("users");
+  return { alerts, users };
 }
 
-export const alerts = await connectToMongo();
+export const { alerts, users } = await connectToMongo();
